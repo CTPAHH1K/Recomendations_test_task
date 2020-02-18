@@ -1,0 +1,18 @@
+Вопрос 2.
+
+В базе данных MS SQL Server есть продукты и категории.
+Одному продукту может соответствовать много категорий, в одной категории может быть много продуктов.
+Напишите SQL запрос для выбора всех пар «Имя продукта – Имя категории».
+Если у продукта нет категорий, то его имя все равно должно выводиться.
+
+Представим в виде двух таблиц Products и Categories с колонками Id и Name и третьей таблицы
+объединяющей их ProductCategories с колонками CategoryId  и ProductId.
+
+SELECT Products.Name, tmp.CategoryName
+FROM Products LEFT JOIN
+		(
+		SELECT ProductCategories.ProductId, Categories.Name AS CategoryName
+		FROM Categories LEFT JOIN ProductCategories
+		ON Categories.Id = ProductCategories.CategoryId
+		) AS tmp
+ON tmp.ProductId = Products.Id
